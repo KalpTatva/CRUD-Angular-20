@@ -1,12 +1,15 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.css'
+  template: `
+      <main>
+        <!-- <dashboard-component></dashboard-component> -->
+      </main>
+      <router-outlet></router-outlet>
+    `,
+  styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('CRUD-project');
-}
+export class App  {}
