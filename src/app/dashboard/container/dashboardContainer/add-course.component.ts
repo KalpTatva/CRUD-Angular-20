@@ -1,21 +1,18 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
 import { DashboardService } from '../../dashboard.service';
-import { ActivatedRoute } from '@angular/router';
-
-
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 @Component({
-  selector: 'edit-course',
+  selector: 'add-course',
   imports: [CommonModule, ReactiveFormsModule],
   template: `
     <div>
       <form
         class="max-w-sm mx-auto"
-        [formGroup]="editCourse"
+        [formGroup]="addCourse"
         (ngSubmit)="onSubmit()"
       >
-        <span class="max-w-sm mx-auto text-4xl"> Edit Course </span>
+        <span class="max-w-sm mx-auto text-4xl"> Add Course </span>
         <div class="my-5">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -101,89 +98,53 @@ import { ActivatedRoute } from '@angular/router';
         </div>
 
         <input type="hidden" formControlName="UserId" />
-        <input type="hidden" formControlName="CourseId" />
 
         <button
           type="submit"
-          [disabled]="editCourse.invalid"
+          [disabled]="addCourse.invalid"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
-          Edit Course
+          Submit
         </button>
 
-        <pre>{{ editCourse.value | json }}</pre>
+        <pre>{{ addCourse.value | json }}</pre>
       </form>
     </div>
   `,
 })
-export class EditCourseComponent implements OnInit {
+export class AddCourseComponent {
   fb = inject(FormBuilder);
   dashboardService = inject(DashboardService);
-  testId = 0;
-  courseName = signal("");
-  courseContent = signal("");
-  credits = signal(0);
-  courseId = signal(0);
-  userId = signal(0);
-  department = signal("");
 
-  constructor(private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
-    this.route.params.subscribe((params) => {
-      this.testId = params['id'];
-      this.FetchCourse(this.testId);
-    });
-  }
-
-  FetchCourse(id: number) {
-    this.dashboardService.GetCourseById(id).subscribe(
-      (response) => {
-        console.log('Edit data recevied!', response);
-        this.editCourse.get("CourseName")?.setValue(response.data.courseName);
-        this.editCourse.get("CourseContent")?.setValue(response.data.courseContent);
-        this.editCourse.get("Credits")?.setValue(response.data.credits);
-        this.editCourse.get("Department")?.setValue(response.data.department);
-        this.editCourse.get("UserId")?.setValue(response.data.createdById);
-        this.editCourse.get("CourseId")?.setValue(response.data.courseId);
-
-      },
-      (error) => {
-        console.log('Error occured fetching course!', error);
-      }
-    );
-  }
-
-  editCourse = this.fb.group({
-    CourseName: [this.courseName(), [Validators.required]],
-    CourseContent: [this.courseContent(), [Validators.required]],
-    Credits: [this.credits(), [Validators.required, Validators.pattern(/^[1-6]{1}$/)]],
-    Department: [this.department(), [Validators.required]],
-    CourseId: [this.courseId(), [Validators.required]],
-    UserId: [this.userId(), [Validators.required]],
+  addCourse = this.fb.group({
+    CourseName: ['', [Validators.required]],
+    CourseContent: ['', [Validators.required]],
+    Credits: [, [Validators.required, Validators.pattern(/^[1-6]{1}$/)]],
+    Department: [, [Validators.required]],
+    UserId: [2, [Validators.required]],
   });
 
   onSubmit() {
-    console.log('submit data : ', this.editCourse.value);
-    this.dashboardService.EditCourse(this.editCourse.value).subscribe(
+    // console.log('submit data : ', this.addCourse.value);
+    this.dashboardService.postCourses(this.addCourse.value).subscribe(
       (response) => {
-        console.log('form data Edited successfully!', response);
+        console.log('form data added successfully!', response);
       },
       (error) => {
-        console.log('Error occured editing courses!', error);
+        console.log('Error occured while posting courses!', error);
       }
     );
   }
 
   Required(value: string) {
     return (
-      this.editCourse.get(`${value}`)?.hasError('required') &&
-      (this.editCourse.get(`${value}`)?.touched ||
-        this.editCourse.get(`${value}`)?.dirty)
+      this.addCourse.get(`${value}`)?.hasError('required') &&
+      (this.addCourse.get(`${value}`)?.touched ||
+        this.addCourse.get(`${value}`)?.dirty)
     );
   }
 
   MatchExp(value: string) {
-    return this.editCourse.get(`${value}`)?.hasError('pattern');
+    return this.addCourse.get(`${value}`)?.hasError('pattern');
   }
 }
