@@ -1,2 +1,23 @@
-/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import '@angular/cdk/overlay-prebuilt.css';
+
+/* @import '@angular/material/prebuilt-themes/indigo-pink.css'; */
+
+/* @import '@angular/material/prebuilt-themes/pink-bluegrey.css'; */
+
+/* @import '@angular/material/prebuilt-themes/purple-green.css'; */
+
+
 @import "tailwindcss";
+
+.custom-snackbar {
+  background-color: #2f3033;
+  color: white;
+}
+
+.mat-mdc-snack-bar-container.custom-snackbar {
+  --mdc-snackbar-container-color: #2f3033;
+  --mdc-snackbar-supporting-text-color: white;
+}
+

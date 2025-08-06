@@ -2,9 +2,13 @@ import { Component, inject } from '@angular/core';
 import { DashboardService } from '../../dashboard.service';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PizzaPartyComponent } from '../../components/course-popup.component';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'add-course',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
     <div>
       <form
@@ -12,7 +16,15 @@ import { CommonModule } from '@angular/common';
         [formGroup]="addCourse"
         (ngSubmit)="onSubmit()"
       >
-        <span class="max-w-sm mx-auto text-4xl"> Add Course </span>
+        <div class="flex justify-between">
+          <span class="text-4xl"> Add Course </span>
+          <a
+            class="py-3 text-gray-700 font-semibold"
+            routerLink="/"
+          >
+            Back
+          </a>
+        </div>
         <div class="my-5">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -106,14 +118,21 @@ import { CommonModule } from '@angular/common';
         >
           Submit
         </button>
-
-        <pre>{{ addCourse.value | json }}</pre>
+        <a
+          class="p-2 text-blue-700 font-semibold ms-2 me-2 border-2 border-blue-600 rounded-2xl"
+          routerLink="/"
+        >
+          Cancle
+        </a>
       </form>
     </div>
   `,
 })
 export class AddCourseComponent {
   fb = inject(FormBuilder);
+  private activeRoute = inject(ActivatedRoute);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
   dashboardService = inject(DashboardService);
 
   addCourse = this.fb.group({
@@ -129,6 +148,8 @@ export class AddCourseComponent {
     this.dashboardService.postCourses(this.addCourse.value).subscribe(
       (response) => {
         console.log('form data added successfully!', response);
+        this.openSnackBar();
+        this.router.navigate(['/']);
       },
       (error) => {
         console.log('Error occured while posting courses!', error);
@@ -142,6 +163,16 @@ export class AddCourseComponent {
       (this.addCourse.get(`${value}`)?.touched ||
         this.addCourse.get(`${value}`)?.dirty)
     );
+  }
+
+  openSnackBar() {
+    this.snackBar.openFromComponent(PizzaPartyComponent, {
+      data: 'Course Added successfully!!',
+      panelClass: ['custom-snackbar'],
+      duration: 3000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
   }
 
   MatchExp(value: string) {

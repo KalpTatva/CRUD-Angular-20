@@ -1,10 +1,19 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnChanges,
+  Output,
+} from '@angular/core';
 import { Course } from '../Models/course.interface';
 import { RouterModule } from '@angular/router';
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogDeleteComponent } from './course-delete-dialog.component';
 @Component({
   selector: 'course-table',
-  imports: [RouterModule],
+  imports: [RouterModule, MatButtonModule],
   template: `
     <div class=" m-4 relative overflow-x-auto shadow-md sm:rounded-lg ">
       <table
@@ -41,17 +50,17 @@ import { RouterModule } from '@angular/router';
             <td class="px-6 py-4">{{ course.createdAt }}</td>
             <td class="px-6 py-4">
               <a
-                [routerLink]="['/edit-course', course.courseId]"
+                [routerLink]="['/edit-course', course.courseid]"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >
                 Edit
               </a>
-              <a
-                class="font-medium text-blue-600 dark:text-blue-500 hover:underline ps-2"
-                (click)="deleteCourse(course.courseId)"
+              <button
+                class="font-medium text-blue-600 dark:text-blue-500 hover:underline ps-2 cursor-pointer"
+                (click)="deleteCourse(course.courseName, course.courseid)"
               >
                 Delete
-              </a>
+              </button>
             </td>
           </tr>
           }
@@ -63,10 +72,26 @@ import { RouterModule } from '@angular/router';
 export class CourseTableComponent implements OnChanges {
   @Input() courses: Course[] = [];
   @Output() remove: EventEmitter<any> = new EventEmitter();
-
+  readonly dialog = inject(MatDialog);
   ngOnChanges(changes: any) {}
 
-  deleteCourse(value: number) {
-    this.remove.emit(value);
+  deleteCourse(course: string, value: number) {
+    // console.log(course, value, "____________________");
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: { name: course, courseId: value },
+      width: '250px',
+      enterAnimationDuration: '0ms',
+      exitAnimationDuration: '0ms',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result === "true") {
+        console.log("result value : ", result);
+        this.remove.emit(value);
+      } else {
+        // User canceled deletion
+        console.log('Deletion canceled.', result);
+      }
+    });
   }
 }

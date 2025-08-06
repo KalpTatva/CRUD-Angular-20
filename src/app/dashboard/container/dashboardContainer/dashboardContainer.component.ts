@@ -3,6 +3,8 @@ import { firstValueFrom } from 'rxjs';
 import { DashboardService } from '../../dashboard.service';
 import { CourseTableComponent } from '../../components/course-table.component';
 import { RouterLink } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PizzaPartyComponent } from '../../components/course-popup.component';
 
 @Component({
   selector: 'dashboard-component',
@@ -27,17 +29,37 @@ export class DashboardComponent {
   numberOfCourses = signal(0);
   courses = signal([]);
 
-  constructor(private dashboardService: DashboardService) {}
+  constructor(
+    private dashboardService: DashboardService,
+    private snackBar: MatSnackBar
+  ) {}
+
+  openSnackBar() {
+    this.snackBar.openFromComponent(PizzaPartyComponent, {
+      data: 'Course deleted successfully!!',
+      panelClass: ['custom-snackbar'],
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
+  }
 
   async ngOnInit(): Promise<void> {
-    const Response = await firstValueFrom(
-      this.dashboardService.GetStringData()
-    );
-    const Courses = await firstValueFrom(this.dashboardService.GetAllCourses());
+    // const Courses = await firstValueFrom(this.dashboardService.GetAllCourses());
 
+    // if (Courses.data.length > 0) {
+    //   this.courses.set(Courses.data);
+    //   // console.log(Courses);
+    // }
+
+    this.HandleList();
+  }
+
+  async HandleList(): Promise<void> {
+    const Courses = await firstValueFrom(this.dashboardService.GetAllCourses());
     if (Courses.data.length > 0) {
       this.courses.set(Courses.data);
-      // console.log(Courses);
+      // console.log(this.courses());
     }
   }
 
@@ -46,7 +68,8 @@ export class DashboardComponent {
     this.dashboardService.DeleteCourse(event).subscribe(
       (response) => {
         console.log('form data Edited successfully!', response);
-
+        this.HandleList();
+        this.openSnackBar();
       },
       (error) => {
         console.log('Error occured editing courses!', error);

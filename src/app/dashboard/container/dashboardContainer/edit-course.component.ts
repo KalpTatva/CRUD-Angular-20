@@ -2,12 +2,14 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DashboardService } from '../../dashboard.service';
-import { ActivatedRoute } from '@angular/router';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { PizzaPartyComponent } from '../../components/course-popup.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'edit-course',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   template: `
     <div>
       <form
@@ -15,7 +17,10 @@ import { ActivatedRoute } from '@angular/router';
         [formGroup]="editCourse"
         (ngSubmit)="onSubmit()"
       >
-        <span class="max-w-sm mx-auto text-4xl"> Edit Course </span>
+        <div class="flex justify-between">
+          <span class="text-4xl"> Edit Course </span>
+          <a class="py-3 text-gray-700 font-semibold" routerLink="/"> Back </a>
+        </div>
         <div class="my-5">
           <label
             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -101,7 +106,7 @@ import { ActivatedRoute } from '@angular/router';
         </div>
 
         <input type="hidden" formControlName="UserId" />
-        <input type="hidden" formControlName="CourseId" />
+        <input type="hidden" formControlName="Courseid" />
 
         <button
           type="submit"
@@ -110,22 +115,28 @@ import { ActivatedRoute } from '@angular/router';
         >
           Edit Course
         </button>
-
-        <pre>{{ editCourse.value | json }}</pre>
+        <a
+          class="p-2 text-blue-700 font-semibold ms-2 me-2 border-2 border-blue-600 rounded-2xl"
+          routerLink="/"
+        >
+          Cancle
+        </a>
       </form>
     </div>
   `,
 })
 export class EditCourseComponent implements OnInit {
-  fb = inject(FormBuilder);
+  private fb = inject(FormBuilder);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
   dashboardService = inject(DashboardService);
   testId = 0;
-  courseName = signal("");
-  courseContent = signal("");
+  courseName = signal('');
+  courseContent = signal('');
   credits = signal(0);
-  courseId = signal(0);
+  Courseid = signal(0);
   userId = signal(0);
-  department = signal("");
+  department = signal('');
 
   constructor(private route: ActivatedRoute) {}
 
@@ -140,13 +151,12 @@ export class EditCourseComponent implements OnInit {
     this.dashboardService.GetCourseById(id).subscribe(
       (response) => {
         console.log('Edit data recevied!', response);
-        this.editCourse.get("CourseName")?.setValue(response.data.courseName);
-        this.editCourse.get("CourseContent")?.setValue(response.data.courseContent);
-        this.editCourse.get("Credits")?.setValue(response.data.credits);
-        this.editCourse.get("Department")?.setValue(response.data.department);
-        this.editCourse.get("UserId")?.setValue(response.data.createdById);
-        this.editCourse.get("CourseId")?.setValue(response.data.courseId);
-
+        this.editCourse.get('CourseName')?.setValue(response.data.courseName);
+        this.editCourse.get('CourseContent')?.setValue(response.data.courseContent);
+        this.editCourse.get('Credits')?.setValue(response.data.credits);
+        this.editCourse.get('Department')?.setValue(response.data.department);
+        this.editCourse.get('UserId')?.setValue(response.data.createdById);
+        this.editCourse.get('Courseid')?.setValue(response.data.courseid);
       },
       (error) => {
         console.log('Error occured fetching course!', error);
@@ -157,9 +167,12 @@ export class EditCourseComponent implements OnInit {
   editCourse = this.fb.group({
     CourseName: [this.courseName(), [Validators.required]],
     CourseContent: [this.courseContent(), [Validators.required]],
-    Credits: [this.credits(), [Validators.required, Validators.pattern(/^[1-6]{1}$/)]],
+    Credits: [
+      this.credits(),
+      [Validators.required, Validators.pattern(/^[1-6]{1}$/)],
+    ],
     Department: [this.department(), [Validators.required]],
-    CourseId: [this.courseId(), [Validators.required]],
+    Courseid: [this.Courseid(), [Validators.required]],
     UserId: [this.userId(), [Validators.required]],
   });
 
@@ -168,11 +181,23 @@ export class EditCourseComponent implements OnInit {
     this.dashboardService.EditCourse(this.editCourse.value).subscribe(
       (response) => {
         console.log('form data Edited successfully!', response);
+        this.openSnackBar();
+        this.router.navigate(['/']);
       },
       (error) => {
         console.log('Error occured editing courses!', error);
       }
     );
+  }
+
+  openSnackBar() {
+    this.snackBar.openFromComponent(PizzaPartyComponent, {
+      data: 'Course Edited successfully!!',
+      panelClass: ['custom-snackbar'],
+      duration: 2000,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom',
+    });
   }
 
   Required(value: string) {

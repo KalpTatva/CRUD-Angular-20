@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class DashboardService {
-  private API_URL = `http://localhost:5267/api`;
+  private API_URL = `http://localhost:5281/api`;
   constructor(private http: HttpClient) {}
 
   GetStringData(): Observable<any> {
