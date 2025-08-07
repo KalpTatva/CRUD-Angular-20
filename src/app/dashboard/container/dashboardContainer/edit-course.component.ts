@@ -178,16 +178,16 @@ export class EditCourseComponent implements OnInit {
 
   onSubmit() {
     console.log('submit data : ', this.editCourse.value);
-    this.dashboardService.EditCourse(this.editCourse.value).subscribe(
-      (response) => {
+    this.dashboardService.EditCourse(this.editCourse.value).subscribe({
+      next : (response) => {
         console.log('form data Edited successfully!', response);
         this.openSnackBar();
         this.router.navigate(['/']);
       },
-      (error) => {
+      error :(error) => {
         console.log('Error occured editing courses!', error);
       }
-    );
+    });
   }
 
   openSnackBar() {

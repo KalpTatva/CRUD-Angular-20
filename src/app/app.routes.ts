@@ -3,9 +3,12 @@ import { DashboardComponent } from './dashboard/container/dashboardContainer/das
 import { NotFoundComponent } from './app.notfound.component';
 import { EditCourseComponent } from './dashboard/container/dashboardContainer/edit-course.component';
 import { AddCourseComponent } from './dashboard/container/dashboardContainer/add-course.component';
+import { LoginComponent } from './dashboard/container/auth/auth-login.component';
+
 
 export const routes: Routes = [
   { path: '', component: DashboardComponent, pathMatch: 'full' },
+  { path: 'auth-login', component: LoginComponent},
   { path: 'add-course', component: AddCourseComponent },
   { path: 'edit-course/:id', component: EditCourseComponent },
   { path: '**', component: NotFoundComponent },

@@ -6,10 +6,10 @@ import { NavbarComponent } from "./dashboard/components/navbar.component";
   selector: 'app-root',
   imports: [RouterOutlet, NavbarComponent],
   template: `
-      <main>
+      <main class=" h-screen bg-gray-50 dark:bg-gray-900 ">
         <navbar />
+        <router-outlet></router-outlet>
       </main>
-      <router-outlet></router-outlet>
     `,
   styleUrl: './app.css',
 })
