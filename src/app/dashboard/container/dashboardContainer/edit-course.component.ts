@@ -150,7 +150,7 @@ export class EditCourseComponent implements OnInit {
   FetchCourse(id: number) {
     this.dashboardService.GetCourseById(id).subscribe(
       (response) => {
-        console.log('Edit data recevied!', response);
+        // console.log('Edit data recevied!', response);
         this.editCourse.get('CourseName')?.setValue(response.data.courseName);
         this.editCourse.get('CourseContent')?.setValue(response.data.courseContent);
         this.editCourse.get('Credits')?.setValue(response.data.credits);
@@ -180,7 +180,7 @@ export class EditCourseComponent implements OnInit {
     console.log('submit data : ', this.editCourse.value);
     this.dashboardService.EditCourse(this.editCourse.value).subscribe({
       next : (response) => {
-        console.log('form data Edited successfully!', response);
+        // console.log('form data Edited successfully!', response);
         this.openSnackBar();
         this.router.navigate(['/']);
       },

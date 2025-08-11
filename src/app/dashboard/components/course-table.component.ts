@@ -86,11 +86,11 @@ export class CourseTableComponent implements OnChanges {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result === "true") {
-        console.log("result value : ", result);
+        // console.log("result value : ", result);
         this.remove.emit(value);
       } else {
         // User canceled deletion
-        console.log('Deletion canceled.', result);
+        // console.log('Deletion canceled.', result);
       }
     });
   }

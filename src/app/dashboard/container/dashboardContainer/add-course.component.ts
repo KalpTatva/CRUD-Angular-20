@@ -147,12 +147,12 @@ export class AddCourseComponent {
     // console.log('submit data : ', this.addCourse.value);
     this.dashboardService.postCourses(this.addCourse.value).subscribe({
       next : (response) => {
-        console.log('form data added successfully!', response);
+        // console.log('form data added successfully!', response);
         this.openSnackBar();
         this.router.navigate(['/']);
       },
       error : (error) => {
-        console.log('Error occured while posting courses!', error);
+        // console.log('Error occured while posting courses!', error);
       }
   });
   }
