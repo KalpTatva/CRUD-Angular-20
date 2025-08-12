@@ -22,7 +22,7 @@ import { TranslocoService } from '@jsverse/transloco';
       <select (change)="changeLang($event)">
         <option value="en">English</option>
         <option value="hi">हिन्दी</option>
-        <option value="fr">Français</option>
+        <option value="de">German</option>
       </select>
       <a href="" class="my-auto cursor-pointer" (click)="HandleLogout()">
         Logout
@@ -47,8 +47,8 @@ export class NavbarComponent implements OnChanges, OnInit {
   }
 
   changeLang(lang: any) {
-    console.log(lang);
-    // this.transloco.setActiveLang(lang);
+    console.log(lang.target.value);
+    this.transloco.setActiveLang(lang.target.value);
   }
 
   HandleLogout() {
