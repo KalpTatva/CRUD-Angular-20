@@ -1,0 +1,16 @@
+{
+  "SIGN_IN_ACCOUNT": "Sign in to your account",
+  "EMAIL_LABEL": "Your email",
+  "EMAIL_PLACEHOLDER": "name@company.com",
+  "EMAIL_REQUIRED": "Email is required.",
+  "EMAIL_INVALID": "Invalid user email",
+  "PASSWORD_LABEL": "Password",
+  "PASSWORD_PLACEHOLDER": "••••••••",
+  "PASSWORD_REQUIRED": "Password is required.",
+  "PASSWORD_INVALID": "Must contain at least 1 uppercase, 1 lowercase, 1 special character, 1 number and have a length of 8.",
+  "REMEMBER_ME": "Remember me",
+  "FORGOT_PASSWORD": "Forgot password?",
+  "SIGN_IN": "Sign in",
+  "NO_ACCOUNT": "Don’t have an account yet?",
+  "SIGN_UP": "Sign up"
+}

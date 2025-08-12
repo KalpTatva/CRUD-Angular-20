@@ -3,9 +3,10 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { Router } from '@angular/router';
 import { AuthServices } from '../../../core/auth.service';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 @Component({
   selector: 'auth-login',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, TranslocoModule],
   template: `
     @if(isBrowser && isUser()) {
 
@@ -41,7 +42,7 @@ import { AuthServices } from '../../../core/auth.service';
             <h1
               class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
             >
-              Sign in to your account
+              {{ 'SIGN_IN_ACCOUNT' | transloco }}
             </h1>
             <form
               class="space-y-4 md:space-y-6"
@@ -52,40 +53,45 @@ import { AuthServices } from '../../../core/auth.service';
                 <label
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Your email</label
+                  >{{ 'EMAIL_LABEL' | transloco }}</label
                 >
                 <input
                   type="email"
                   formControlName="email"
                   id="email"
                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder="name@company.com"
+                  [placeholder]="'EMAIL_PLACEHOLDER' | transloco"
                 />
                 @if(Required("email")) {
-                <div class=" text-red-700">email is required.</div>
+                <div class=" text-red-700">
+                  {{ 'EMAIL_REQUIRED' | transloco }}
+                </div>
                 } @else if(MatchExp("email")) {
-                <div class=" text-red-700">Invalid user email</div>
+                <div class=" text-red-700">
+                  {{ 'EMAIL_INVALID' | transloco }}
+                </div>
                 }
               </div>
               <div>
                 <label
                   for="password"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >Password</label
+                  >{{ 'PASSWORD_LABEL' | transloco }}</label
                 >
                 <input
                   type="password"
                   formControlName="password"
                   id="password"
-                  placeholder="••••••••"
+                  [placeholder]="'PASSWORD_PLACEHOLDER' | transloco"
                   class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 />
                 @if(Required("password")) {
-                <div class=" text-red-700">paassword is required.</div>
+                <div class=" text-red-700">
+                  {{ 'PASSWORD_REQUIRED' | transloco }}
+                </div>
                 } @else if(MatchExp("password")) {
                 <div class=" text-red-700">
-                  Atleast contain 1-uppercase, 1-lowercase, 1-special charecter,
-                  1-number and length should be 8
+                  {{ 'PASSWORD_INVALID' | transloco }}
                 </div>
                 }
               </div>
@@ -103,14 +109,14 @@ import { AuthServices } from '../../../core/auth.service';
                     <label
                       for="remember"
                       class="text-gray-500 dark:text-gray-300"
-                      >Remember me</label
+                      >{{ 'REMEMBER_ME' | transloco }}</label
                     >
                   </div>
                 </div>
                 <a
                   href="#"
                   class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >Forgot password?</a
+                  >{{ 'FORGOT_PASSWORD' | transloco }}</a
                 >
               </div>
               <button
@@ -118,14 +124,14 @@ import { AuthServices } from '../../../core/auth.service';
                 type="submit"
                 class="w-full text-white bg-blue-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
-                Sign in
+                {{ 'SIGN_IN' | transloco }}
               </button>
               <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?
+                {{ 'NO_ACCOUNT' | transloco }}
                 <a
                   href="#"
                   class="font-medium text-blue-600 hover:underline dark:text-blue-500"
-                  >Sign up</a
+                  >{{ 'SIGN_UP' | transloco }}</a
                 >
               </p>
             </form>
@@ -144,11 +150,20 @@ export class LoginComponent {
   isBrowser: boolean;
   isUser = signal(false);
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private transloco: TranslocoService
+  ) {
+    this.transloco.setActiveLang('en');
+
     this.isBrowser = isPlatformBrowser(platformId);
-    console.log(this.isBrowser, "browser is here ......");
+    console.log(this.isBrowser, 'browser is here ......');
     const accessToken = this.authService.getAccessToken();
-    if (accessToken != null && accessToken?.length > 0 && accessToken != "N/A") {
+    if (
+      accessToken != null &&
+      accessToken?.length > 0 &&
+      accessToken != 'N/A'
+    ) {
       console.log(accessToken);
       this.isUser.set(true);
     }

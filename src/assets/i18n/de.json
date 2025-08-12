@@ -1,0 +1,16 @@
+{
+  "SIGN_IN_ACCOUNT": "Melden Sie sich bei Ihrem Konto an",
+  "EMAIL_LABEL": "Ihre E-Mail",
+  "EMAIL_PLACEHOLDER": "name@firma.com",
+  "EMAIL_REQUIRED": "E-Mail ist erforderlich.",
+  "EMAIL_INVALID": "Ungültige Benutzer-E-Mail",
+  "PASSWORD_LABEL": "Passwort",
+  "PASSWORD_PLACEHOLDER": "••••••••",
+  "PASSWORD_REQUIRED": "Passwort ist erforderlich.",
+  "PASSWORD_INVALID": "Muss mindestens 1 Großbuchstaben, 1 Kleinbuchstaben, 1 Sonderzeichen, 1 Zahl enthalten und 8 Zeichen lang sein.",
+  "REMEMBER_ME": "Angemeldet bleiben",
+  "FORGOT_PASSWORD": "Passwort vergessen?",
+  "SIGN_IN": "Anmelden",
+  "NO_ACCOUNT": "Noch kein Konto?",
+  "SIGN_UP": "Registrieren"
+}

@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import { AuthServices } from '../../core/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { TranslocoService } from '@jsverse/transloco';
 
 @Component({
   selector: 'navbar',
@@ -18,9 +19,14 @@ import { ActivatedRoute, Router } from '@angular/router';
       <h2 class=" text-3xl justify-start">{{ title() }}</h2>
       <!-- @if(active)
       { -->
-          <a href="" class="my-auto cursor-pointer" (click)="HandleLogout()">
-            Logout
-          </a>
+      <select (change)="changeLang($event)">
+        <option value="en">English</option>
+        <option value="hi">हिन्दी</option>
+        <option value="fr">Français</option>
+      </select>
+      <a href="" class="my-auto cursor-pointer" (click)="HandleLogout()">
+        Logout
+      </a>
       <!-- } -->
     </nav>
   `,
@@ -29,7 +35,7 @@ export class NavbarComponent implements OnChanges, OnInit {
   authService = inject(AuthServices);
   activatedRoute = inject(ActivatedRoute);
   router = inject(Router);
-  constructor() {}
+  constructor(private transloco: TranslocoService) {}
   title = signal('CRUD');
   active = signal(true);
 
@@ -38,6 +44,11 @@ export class NavbarComponent implements OnChanges, OnInit {
   }
   ngOnChanges(changes: SimpleChanges): void {
     // console.log("+++++++",this.activatedRoute.snapshot);
+  }
+
+  changeLang(lang: any) {
+    console.log(lang);
+    // this.transloco.setActiveLang(lang);
   }
 
   HandleLogout() {

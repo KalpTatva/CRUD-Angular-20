@@ -1,0 +1,16 @@
+{
+  "SIGN_IN_ACCOUNT": "अपने खाते में साइन इन करें",
+  "EMAIL_LABEL": "आपका ईमेल",
+  "EMAIL_PLACEHOLDER": "name@company.com",
+  "EMAIL_REQUIRED": "ईमेल आवश्यक है।",
+  "EMAIL_INVALID": "अमान्य उपयोगकर्ता ईमेल",
+  "PASSWORD_LABEL": "पासवर्ड",
+  "PASSWORD_PLACEHOLDER": "••••••••",
+  "PASSWORD_REQUIRED": "पासवर्ड आवश्यक है।",
+  "PASSWORD_INVALID": "कम से कम 1 बड़े अक्षर, 1 छोटे अक्षर, 1 विशेष वर्ण, 1 संख्या होनी चाहिए और लंबाई 8 होनी चाहिए।",
+  "REMEMBER_ME": "मुझे याद रखें",
+  "FORGOT_PASSWORD": "पासवर्ड भूल गए?",
+  "SIGN_IN": "साइन इन करें",
+  "NO_ACCOUNT": "क्या आपका खाता नहीं है?",
+  "SIGN_UP": "साइन अप करें"
+}
