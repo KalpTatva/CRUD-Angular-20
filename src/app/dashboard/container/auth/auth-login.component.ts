@@ -157,14 +157,12 @@ export class LoginComponent {
     this.transloco.setActiveLang('en');
 
     this.isBrowser = isPlatformBrowser(platformId);
-    console.log(this.isBrowser, 'browser is here ......');
     const accessToken = this.authService.getAccessToken();
     if (
       accessToken != null &&
       accessToken?.length > 0 &&
       accessToken != 'N/A'
     ) {
-      console.log(accessToken);
       this.isUser.set(true);
     }
   }
@@ -200,9 +198,6 @@ export class LoginComponent {
         })
         .subscribe({
           next: (response) => {
-            // console.log('form data added successfully!', response);
-            // console.log('authtoken', response.accessToken);
-            // console.log('refreshToken', response.refreshToken);
             this.router.navigate(['/']);
           },
           error: (error) => {

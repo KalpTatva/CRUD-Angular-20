@@ -11,9 +11,10 @@ import { RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogDeleteComponent } from './course-delete-dialog.component';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
 @Component({
   selector: 'course-table',
-  imports: [RouterModule, MatButtonModule],
+  imports: [RouterModule, MatButtonModule, TranslocoModule],
   template: `
     <div class=" m-4 relative overflow-x-auto shadow-md sm:rounded-lg ">
       <table
@@ -23,13 +24,21 @@ import { DialogDeleteComponent } from './course-delete-dialog.component';
           class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
         >
           <tr>
-            <th scope="col" class="px-6 py-3">Id</th>
-            <th scope="col" class="px-6 py-3">Course Name</th>
-            <th scope="col" class="px-6 py-3">Content</th>
-            <th scope="col" class="px-6 py-3">Credits</th>
-            <th scope="col" class="px-6 py-3">Department</th>
-            <th scope="col" class="px-6 py-3">Create Date</th>
-            <th scope="col" class="px-6 py-3">Action</th>
+            <th scope="col" class="px-6 py-3">{{ 'ID' | transloco }}</th>
+            <th scope="col" class="px-6 py-3">
+              {{ 'COURSE_NAME' | transloco }}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {{ 'COURSE_CONTENT' | transloco }}
+            </th>
+            <th scope="col" class="px-6 py-3">{{ 'CREDITS' | transloco }}</th>
+            <th scope="col" class="px-6 py-3">
+              {{ 'DEPARTMENT' | transloco }}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {{ 'CREATED_DATE' | transloco }}
+            </th>
+            <th scope="col" class="px-6 py-3">{{ 'ACTION' | transloco }}</th>
           </tr>
         </thead>
         <tbody>
@@ -53,13 +62,13 @@ import { DialogDeleteComponent } from './course-delete-dialog.component';
                 [routerLink]="['/edit-course', course.courseid]"
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline"
               >
-                Edit
+                {{ 'EDIT' | transloco }}
               </a>
               <button
                 class="font-medium text-blue-600 dark:text-blue-500 hover:underline ps-2 cursor-pointer"
                 (click)="deleteCourse(course.courseName, course.courseid)"
               >
-                Delete
+                {{ 'DELETE' | transloco }}
               </button>
             </td>
           </tr>
@@ -73,10 +82,10 @@ export class CourseTableComponent implements OnChanges {
   @Input() courses: Course[] = [];
   @Output() remove: EventEmitter<any> = new EventEmitter();
   readonly dialog = inject(MatDialog);
+  private transloco = inject(TranslocoService);
   ngOnChanges(changes: any) {}
 
   deleteCourse(course: string, value: number) {
-    // console.log(course, value, "____________________");
     const dialogRef = this.dialog.open(DialogDeleteComponent, {
       data: { name: course, courseId: value },
       width: '250px',
@@ -85,12 +94,10 @@ export class CourseTableComponent implements OnChanges {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      if (result === "true") {
-        // console.log("result value : ", result);
+      if (result === 'true') {
         this.remove.emit(value);
       } else {
-        // User canceled deletion
-        // console.log('Deletion canceled.', result);
+        console.log('Deletion canceled.', result);
       }
     });
   }

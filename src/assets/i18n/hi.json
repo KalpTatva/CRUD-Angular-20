@@ -12,5 +12,31 @@
   "FORGOT_PASSWORD": "पासवर्ड भूल गए?",
   "SIGN_IN": "साइन इन करें",
   "NO_ACCOUNT": "क्या आपका खाता नहीं है?",
-  "SIGN_UP": "साइन अप करें"
+  "SIGN_UP": "साइन अप करें",
+  "TITLE": "CRUD",
+  "LOGOUT": "लॉग आउट",
+
+  "ADD_COURSE": "कोर्स जोड़ें",
+  "BACK": "वापस",
+  "COURSE_NAME": "कोर्स का नाम",
+  "COURSE_REQUIRED": "कोर्स का नाम आवश्यक है।",
+  "COURSE_CONTENT": "कोर्स की सामग्री",
+  "COURSE_CONTENT_REQUIRED": "सामग्री आवश्यक है।",
+  "CREDITS": "क्रेडिट",
+  "CREDITS_REQUIRED": "क्रेडिट आवश्यक हैं।",
+  "CREDITS_EXP_MATCH": "क्रेडिट केवल 1-6 अंकों के बीच होने चाहिए।",
+  "DEPARTMENT": "विभाग",
+  "DEPARTMENT_REQUIRED": "विभाग आवश्यक है।",
+  "SUBMIT": "सबमिट करें",
+  "CANCLE": "रद्द करें",
+
+  "EDIT_COURSE": "पाठ्यक्रम संपादित करें",
+  "EDIT": "संपादित करें",
+
+  "ID": "आईडी",
+  "CREATED_DATE": "निर्माण तिथि",
+  "ACTION": "कार्रवाई",
+  "DELETE" : "रद्द करें"
+
+
 }

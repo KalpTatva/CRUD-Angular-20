@@ -5,10 +5,12 @@ import { CourseTableComponent } from '../../components/course-table.component';
 import { RouterLink } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PizzaPartyComponent } from '../../components/course-popup.component';
+import { TranslocoModule, TranslocoService } from '@jsverse/transloco';
+import { AuthServices } from '../../../core/auth.service';
 
 @Component({
   selector: 'dashboard-component',
-  imports: [CourseTableComponent, RouterLink],
+  imports: [CourseTableComponent, RouterLink, TranslocoModule],
   template: `
     <div class="w-full h-90 flex flex-col">
       @if(loader() == true) {
@@ -16,10 +18,10 @@ import { PizzaPartyComponent } from '../../components/course-popup.component';
         <a
           class=" m-4 text-white bg-sky-900  hover:bg-sky-900  focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-sky-900  dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 cursor-pointer"
           routerLink="/add-course"
-          >Add Course</a
+          >{{ 'ADD_COURSE' | transloco }}</a
         >
       </div>
-      <div class="w-full flex justify-center">
+      <div class=" relative overflow-x-auto">
         <course-table [courses]="courses()" (remove)="HandleRemove($event)" />
       </div>
       } @else {
@@ -53,7 +55,9 @@ export class DashboardComponent {
   loader = signal(false);
   constructor(
     private dashboardService: DashboardService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private transloco: TranslocoService,
+    private authService: AuthServices
   ) {}
 
   openSnackBar() {
@@ -67,13 +71,6 @@ export class DashboardComponent {
   }
 
   async ngOnInit(): Promise<void> {
-    // const Courses = await firstValueFrom(this.dashboardService.GetAllCourses());
-
-    // if (Courses.data.length > 0) {
-    //   this.courses.set(Courses.data);
-    //   // console.log(Courses);
-    // }
-
     this.HandleList();
   }
 
@@ -82,21 +79,18 @@ export class DashboardComponent {
     if (Courses.data.length > 0) {
       this.courses.set(Courses.data);
       this.loader.set(true);
-      // console.log(this.courses());
     }
   }
 
   HandleRemove(event: number) {
-    console.log('event data : ', event);
-    this.dashboardService.DeleteCourse(event).subscribe( {
-      next : (response) => {
-        // console.log('form data Edited successfully!', response);
+    this.dashboardService.DeleteCourse(event).subscribe({
+      next: (response) => {
         this.HandleList();
         this.openSnackBar();
       },
-      error : (error) => {
+      error: (error) => {
         console.log('Error occured editing courses!', error);
-      }
-  });
+      },
+    });
   }
 }

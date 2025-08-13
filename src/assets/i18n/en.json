@@ -12,5 +12,29 @@
   "FORGOT_PASSWORD": "Forgot password?",
   "SIGN_IN": "Sign in",
   "NO_ACCOUNT": "Don’t have an account yet?",
-  "SIGN_UP": "Sign up"
+  "SIGN_UP": "Sign up",
+  "TITLE": "CRUD",
+  "LOGOUT": "Logout",
+
+  "ADD_COURSE": "Add Course",
+  "BACK": "Back",
+  "COURSE_NAME": "Course Name",
+  "COURSE_REQUIRED": "course name is required.",
+  "COURSE_CONTENT": "Course Content",
+  "COURSE_CONTENT_REQUIRED" : "content is required.",
+  "CREDITS" : "Credits",
+  "CREDITS_REQUIRED" : "credits are required.",
+  "CREDITS_EXP_MATCH" : "credits should be in between 1-6 numbers only.",
+  "DEPARTMENT" : "Department",
+  "DEPARTMENT_REQUIRED" : "Department is required.",
+  "SUBMIT" : "Submit",
+  "CANCLE" : "Cancle",
+
+  "EDIT_COURSE": "Edit Course",
+  "EDIT" : "Edit",
+
+  "ID" : "Id",
+  "CREATED_DATE" : "Create Date",
+  "ACTION" : "Action",
+  "DELETE" : "delete"
 }

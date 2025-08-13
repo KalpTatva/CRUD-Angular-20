@@ -63,7 +63,6 @@ export class AuthServices {
   }
 
   isLoggedIn() {
-    console.log("logged in value : ", this.loggedIn$.asObservable());
     return this.loggedIn$.asObservable();
   }
 
@@ -111,12 +110,10 @@ export class AuthServices {
     let accessToken2 = this.isBrowser ? sessionStorage.getItem(this.tokenKey) : null;
     if(accessToken.length > 0)
     {
-      // console.log("passed access token is 1 : ",accessToken);
       return accessToken;
     }
     else if(accessToken2 != null && accessToken2.length > 0)
     {
-      // console.log("passed access token is 2 : ",accessToken2);
       return accessToken2;
     }else {
       return "N/A";

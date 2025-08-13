@@ -12,5 +12,30 @@
   "FORGOT_PASSWORD": "Passwort vergessen?",
   "SIGN_IN": "Anmelden",
   "NO_ACCOUNT": "Noch kein Konto?",
-  "SIGN_UP": "Registrieren"
+  "SIGN_UP": "Registrieren",
+  "TITLE": "CRUD",
+  "LOGOUT": "ausloggen",
+
+  "ADD_COURSE": "Kurs hinzufügen",
+  "BACK": "Zurück",
+  "COURSE_NAME": "Kursname",
+  "COURSE_REQUIRED": "Kursname ist erforderlich.",
+  "COURSE_CONTENT": "Kursinhalt",
+  "COURSE_CONTENT_REQUIRED": "Inhalt ist erforderlich.",
+  "CREDITS": "Credits",
+  "CREDITS_REQUIRED": "Credits sind erforderlich.",
+  "CREDITS_EXP_MATCH": "Credits dürfen nur zwischen 1 und 6 Ziffern lang sein.",
+  "DEPARTMENT": "Abteilung",
+  "DEPARTMENT_REQUIRED": "Abteilung ist erforderlich.",
+  "SUBMIT": "Senden",
+  "CANCLE": "Abbrechen",
+
+  "EDIT_COURSE": "Kurs bearbeiten",
+  "EDIT": "bearbeiten",
+
+  "ID": "ID",
+  "CREATED_DATE": "Erstellungsdatum",
+  "ACTION": "Aktion",
+  "DELETE" : "Abbrechen"
+
 }

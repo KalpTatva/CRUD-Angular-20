@@ -8,46 +8,47 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { AuthServices } from '../../core/auth.service';
-import { ActivatedRoute, Router } from '@angular/router';
-import { TranslocoService } from '@jsverse/transloco';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { TranslocoService, TranslocoModule } from '@jsverse/transloco';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'navbar',
-  imports: [],
+  imports: [TranslocoModule],
   template: `
     <nav class="flex justify-between bg-sky-900  text-white p-3 px-5">
-      <h2 class=" text-3xl justify-start">{{ title() }}</h2>
-      <!-- @if(active)
-      { -->
-      <select (change)="changeLang($event)">
-        <option value="en">English</option>
-        <option value="hi">हिन्दी</option>
-        <option value="de">German</option>
-      </select>
-      <a href="" class="my-auto cursor-pointer" (click)="HandleLogout()">
-        Logout
-      </a>
-      <!-- } -->
+      <h2 class=" text-3xl justify-start">{{ 'TITLE' | transloco }}</h2>
+      <div class="flex gap-4">
+        <select class="text-white" (change)="changeLang($event)">
+          <option class=" text-black" value="en">English</option>
+          <option class=" text-black" value="hi">हिन्दी</option>
+          <option class=" text-black" value="de">German</option>
+        </select>
+        @if(activeLogout()) {
+        <a href="" class="my-auto cursor-pointer" (click)="HandleLogout()">
+        {{ 'LOGOUT' | transloco }}
+        </a>
+        }
+      </div>
     </nav>
   `,
 })
-export class NavbarComponent implements OnChanges, OnInit {
+export class NavbarComponent {
   authService = inject(AuthServices);
   activatedRoute = inject(ActivatedRoute);
-  router = inject(Router);
-  constructor(private transloco: TranslocoService) {}
-  title = signal('CRUD');
-  active = signal(true);
+  activeLogout = signal(false);
 
-  ngOnInit(): void {
-    // console.log("+++++++",this.activatedRoute.snapshot.url);
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    // console.log("+++++++",this.activatedRoute.snapshot);
+  constructor(private router: Router, private transloco: TranslocoService) {
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
+        if (event.url != '/auth-login') {
+          this.activeLogout.set(true);
+        }
+      });
   }
 
   changeLang(lang: any) {
-    console.log(lang.target.value);
     this.transloco.setActiveLang(lang.target.value);
   }
 

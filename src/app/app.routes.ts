@@ -7,9 +7,20 @@ import { LoginComponent } from './dashboard/container/auth/auth-login.component'
 import { AuthGuard } from './core/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component : DashboardComponent, canActivate:[AuthGuard]},
-  { path: 'auth-login', component: LoginComponent},
-  { path: 'add-course', component: AddCourseComponent, canActivate:[AuthGuard] },
-  { path: 'edit-course/:id', component: EditCourseComponent, canActivate:[AuthGuard] },
+  { path: '', component: DashboardComponent, canActivate: [AuthGuard] },
+  { path: 'auth-login', component: LoginComponent },
+  {
+    path: 'add-course',
+    component: AddCourseComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'edit-course/:id',
+    component: EditCourseComponent,
+    data: {
+      renderMode: 'dynamic',
+    },
+    canActivate: [AuthGuard],
+  },
   { path: '**', component: NotFoundComponent },
 ];
